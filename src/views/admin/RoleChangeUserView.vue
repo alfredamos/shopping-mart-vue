@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from "vue-router";
 import { useFetch } from "../../compossables/useFetch";
-import UserDto from "../../models/auth/user.model";
 import { UserApiResults } from "../../models/users/user-api-results.model";
-import { userService } from "../../services/user.service";
-import MakeAdminUserForm from "../../forms/auth/MakeAdminUserForm.vue"
-import { computed } from 'vue';
-import { MakeAdminUserDto } from '../../models/auth/make-admin-user.model';
-import { authService } from '../../services/auth.service';
+import { computed } from "vue";
+import { authService } from "../../services/auth.service";
+import type { ChangeUserRoleDto } from "@/models/auth/change-user-role.model";
+import ChangeUserRoleForm from "@/forms/auth/ChangeUserRoleForm.vue";
 
 const route = useRoute();
 const id = route.params.id;
@@ -22,12 +20,13 @@ const user = computed(() => {
     phone: resource.value?.user?.phone!,
     gender: resource.value?.user?.gender!,
     role: resource.value?.user?.role!,
-  }
-})
+  };
+});
 
-const userEditSubmit = (makeAdminUserDto: MakeAdminUserDto) => {
-  console.log("in make-admin, user : ", makeAdminUserDto)
-  authService.makeAdmin(makeAdminUserDto)
+const userEditSubmit = (changeUserDto: ChangeUserRoleDto) => {
+  console.log("in make-admin, user : ", changeUserDto);
+  authService
+    .changeUserRole(changeUserDto)
     .then((userApiRes) => {
       router.push("/users");
     })
@@ -40,10 +39,11 @@ const backToList = () => {
 </script>
 
 <template>
-  <MakeAdminUserForm
-    v-if="resource?.user"   
+  <ChangeUserRoleForm
+    v-if="resource?.user"
     :initial-value="user!"
     @on-back-to-list="backToList"
-    @on-submit-user="userEditSubmit"        
+    @on-submit-user="userEditSubmit"
+    
   />
 </template>

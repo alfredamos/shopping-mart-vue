@@ -26,12 +26,12 @@ const deleteProduct = (value: boolean) => {
       .catch((error) => console.log(error));
   } else {
     console.log("cancelled, value : ", value);
-    router.push("/list-product");
+    router.push("/list-products");
   }
 };
 
 const backToList = () => {
-  router.push("/list-product");
+  router.push("/list-products");
 };
 </script>
 <template>

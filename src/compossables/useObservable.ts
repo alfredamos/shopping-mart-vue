@@ -7,7 +7,7 @@ export function useObservable<T>(source$: Observable<T>, initialValue: T){
 
   const resource = useSubscription<T>(source$, data) 
 
-  console.log("In observable, user : ", resource.value)
+  console.log("In observable, user : ", resource?.value)
   
   return resource
 }

@@ -7,7 +7,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const emit = defineEmits(["onEditUser", "onDeleteUser", "onDetailUser", "onMakeAdminUser"]);
+const emit = defineEmits(["onEditUser", "onDeleteUser", "onDetailUser", "onRoleChangeUser"]);
 
 const deleteUser = (id: string) => {
   emit("onDeleteUser", id);
@@ -20,8 +20,8 @@ const editUser = (id: string) => {
   emit("onEditUser", id);
 };
 
-const makeAdminUser = (id: string) => {
-  emit("onMakeAdminUser", id);
+const roleChangeUser = (id: string) => {
+  emit("onRoleChangeUser", id);
 };
 </script>
 
@@ -65,7 +65,7 @@ const makeAdminUser = (id: string) => {
               </button>
               <button
               type="button"
-                @click="makeAdminUser(user.id!)"
+                @click="roleChangeUser(user.id!)"
                 class="btn btn-outline-dark m-1 btn-sm fw-bold"
               >
                 Role

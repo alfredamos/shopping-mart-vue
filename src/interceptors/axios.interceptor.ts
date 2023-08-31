@@ -16,9 +16,14 @@ const instance = axios.create(defaultOptions);
 
 //----> Set the AUTH token for any request
 instance.interceptors.request.use(function (config) {
-  const { token } = authService.getLocalAuthUser();
-  console.log("In interceptor - token : ", token);
-  config.headers.Authorization = `Bearer ${token}`;
+  //if (authService.getLocalAuthUser()) {
+    const { token } = authService.getLocalAuthUser();
+    console.log("In interceptor - token : ", token);
+    config.headers.Authorization = `Bearer ${token}`;
+  //}
+
+  /*  console.log("In interceptor - token : ", token);
+  config.headers.Authorization = `Bearer ${token}`; */
   return config;
 });
 
@@ -26,6 +31,7 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error)
     console.log("In response-interceptor,  response : ", error);
     if (error.response.status === 401) {
       console.log("Invalid credentials or expired token, please login!");
@@ -36,11 +42,13 @@ instance.interceptors.response.use(
       console.log("You are not authorized to view this page, please login!");
       authService.updateAuthUser$(userSubInitial);
       window.location.href = "/not-allowed";
-    } /* else {
-      console.log("Oops something went wrong, please login!");
+    }
+    authService.updateAuthUser$(userSubInitial);
+    //window.location.href = "/logout";
+    /* console.log("Oops something went wrong, please login!");
       authService.updateAuthUser$(userSubInitial);
       window.location.href = "/something-wrong";
-    } */
+     */
   }
 );
 

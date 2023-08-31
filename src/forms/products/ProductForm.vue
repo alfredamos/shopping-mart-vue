@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import ProductDto from '../../models/products/product.model';
-import UserDto from '../../models/auth/user.model';
+import type CategoryDto from '@/models/categories/category.model';
 
 interface Props{
   initialValue: ProductDto;
-  users: UserDto[];
+  categories: CategoryDto[];
 }
 
 const props = defineProps<Props>()
@@ -42,10 +42,10 @@ const backToList = () => {
             />            
           </div>
           <div class="mb-3">
-            <label for="company" class="form-label">Company</label>
+            <label for="brand" class="form-label">Brand</label>
             <input
-              id="company"
-              v-model.trim="product.company"
+              id="brand"
+              v-model.trim="product.brand"
               type="text"
               required
               class="form-control"
@@ -55,7 +55,17 @@ const backToList = () => {
             <label for="price" class="form-label">Price</label>
             <input
               id="price"
-              v-model.trim="product.price"
+              v-model.number="product.price"
+              type="number"
+              required
+              class="form-control"
+            />            
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input
+              id="quantity"
+              v-model.number="product.quantity"
               type="number"
               required
               class="form-control"
@@ -71,15 +81,15 @@ const backToList = () => {
             />
           </div>
           <div class="mb-3">
-            <label for="userId" class="form-label">User</label>
-            <select id="userId" v-model.trim="product.userId" class="form-select">
-              <option>Please select user</option>
+            <label for="categoryId" class="form-label">Category</label>
+            <select id="categoryId" v-model.trim="product.categoryId" class="form-select">
+              <option>Please select category</option>
               <option
-                v-for="user in users"
-                :value="user.id"
-                :id="user.id"
+                v-for="category in categories"
+                :value="category.id"
+                :id="category.id"
               >
-                {{ user.name }}
+                {{ category.name }}
               </option>
             </select>
           </div>

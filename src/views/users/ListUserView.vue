@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import { useFetch } from "../../compossables/useFetch";
-import { UserApiResults } from "../../models/users/user-api-results.model";
 import UsersTable from "../../components/UsersTable.vue";
 import { useRouter } from "vue-router";
+import UserDto from '../../models/auth/user.model';
+import { UserApiResults } from '../../models/users/user-api-results.model';
+import { computed } from 'vue';
 
 const router = useRouter();
 
 const { resource } = useFetch<UserApiResults>("/users");
+
+const users = computed(() => resource?.value?.users!)
 
 const deleteUser = (id: string) => {
   router.push(`/users/delete/${id}`);
@@ -18,8 +22,8 @@ const detailUser = (id: string) => {
 const editUser = (id: string) => {
   router.push(`/users/edit/${id}`);
 };
-const makeAdminUser = (id: string) => {
-  router.push(`/users/make-admin/${id}`);
+const changeUserRole = (id: string) => {
+  router.push(`/users/role-change/${id}`);
 };
 
 </script>
@@ -29,11 +33,11 @@ const makeAdminUser = (id: string) => {
     <div class="row">
       <div class="col-sm-6 mt-5">
         <users-table
-          :users="resource.users!"          
+          :users="users"          
           @on-delete-user="deleteUser"
           @on-detail-user="detailUser"
           @on-edit-user="editUser"
-          @on-make-admin-user="makeAdminUser"
+          @on-role-change-user="changeUserRole"
         />
       </div>
       <div class="col-sm-6">

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { MakeAdminUserDto } from "@/models/auth/make-admin-user.model";
 import { ref } from "vue";
+import { ChangeUserRoleDto } from '../../models/auth/change-user-role.model';
 
 interface Props {
-  initialValue: MakeAdminUserDto;
+  initialValue: ChangeUserRoleDto;
 }
 
 const props = defineProps<Props>();
-const user = ref<MakeAdminUserDto>(props.initialValue);
+const user = ref<ChangeUserRoleDto>(props.initialValue);
 
 const emit = defineEmits(["onBackToList", "onSubmitUser"]);
 
@@ -58,7 +58,7 @@ const backToList = () => {
                 disabled
                 class="form-control"
               />
-            </div>            
+            </div>
             <div class="mb-3">
               <label for="gender" class="form-label">Gender</label>
               <select
@@ -74,11 +74,7 @@ const backToList = () => {
             </div>
             <div class="mb-3">
               <label for="role" class="form-label">User Role</label>
-              <select
-                id="role"
-                v-model.trim="user.role"
-                class="form-select"
-              >
+              <select id="role" v-model.trim="user.role" class="form-select">
                 <option>User Role</option>
                 <option value="Admin">Admin</option>
                 <option value="Customer">Customer</option>

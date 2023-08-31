@@ -4,30 +4,33 @@ import ProductDto from "../../models/products/product.model";
 import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
 import { useFetch } from "../../compossables/useFetch";
-import { UserApiResults } from "../../models/users/user-api-results.model";
 import { productService } from '../../services/product.service';
+import CategoryDto from '../../models/categories/category.model';
 
 const router = useRouter();
 
 const product = ref<ProductDto>({
-  name: "",
-  company: "",
-  price: 0,
-  userId: "",
+name: "",
+brand: "",
+price: 0,
+categoryId: "",
+id: "",
+quantity: 0
 });
 
-const { resource } = useFetch<UserApiResults>("/users");
+//----> Retrieve the categories
+const { resource } = useFetch<CategoryDto[]>("/categories");
 
-const users = computed(() => {
-  return resource.value?.users!;
+const categories = computed(() => {
+  console.log("categories : ", resource?.value)
+  return resource.value;
 });
 
 const submitProduct = (productDto: ProductDto) => {
-  console.log("New Product, product : ", productDto)
   productService.createProduct(productDto)
     .then(productApiRes => {
       console.log("Api-response, resp : ", productApiRes)
-      router.push("/products")
+      router.push("/list-product")
     })
     .catch(error => console.log(error))
 };
@@ -39,9 +42,9 @@ const backToList = () => {
 
 <template>
   <ProductForm
-    v-if="users?.length > 0"
+    v-if="categories?.length > 0"
     :initial-value="product"
-    :users="users"
+    :categories="categories"
     @on-back-to-list="backToList"
     @on-submit-product="submitProduct"
   />

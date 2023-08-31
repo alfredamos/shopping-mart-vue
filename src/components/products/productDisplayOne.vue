@@ -27,16 +27,17 @@ const backToList = () => {
         <div class="card-body">
           <ul class="list-group">
             <li class="list-group-item">Name : {{props.product.name}}</li>
-            <li class="list-group-item">Company : {{props.product.company}}</li>
+            <li class="list-group-item">Brand : {{props.product.brand}}</li>
             <li class="list-group-item">Price : {{props.product.price}}</li>
-            <li class="list-group-item">Description : {{props.product.description}}</li>
+            <li class="list-group-item">Quantity : {{props.product.quantity}}</li>
+            <li class="list-group-item">Category : {{props.product?.category?.name}}</li>
           </ul>
         </div>
         <div class="card-footer">
           <button
           type="button"
             @click="backToList()"
-            class="btn-outline-secondary form-control text-center m-1 fw-bold"
+            class="btn btn-outline-secondary form-control text-center m-1 fw-bold"
           >
             Back
           </button>

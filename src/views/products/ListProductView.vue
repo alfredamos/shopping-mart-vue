@@ -13,7 +13,7 @@ const router = useRouter();
 const { authUser } = useAuthUser();
 const isAdmin = computed(() => authUser.value.role === Role.Admin);
 
-//const 
+//const
 console.log("In list-product, products : ", resource.value);
 
 const addToCart = (id: string) => {
@@ -36,7 +36,7 @@ const backToList = () => {
       </div>
       <div class="col-6 d-flex justify-content-end align-content-center">
         <RouterLink
-        type="button"
+          type="button"
           to="/list-product/create"
           class="btn btn-outline-secondary btn-lg w-50 me-0 fw-bold"
         >
@@ -54,3 +54,4 @@ const backToList = () => {
     </div>
   </div>
 </template>
+@/models/products/product-api-results.model

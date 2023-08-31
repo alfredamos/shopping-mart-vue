@@ -2,37 +2,37 @@
 import ProductForm from "@/forms/products/ProductForm.vue";
 import ProductDto from "../../models/products/product.model";
 import { computed } from "vue";
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute } from "vue-router";
 import { useFetch } from "../../compossables/useFetch";
-import { UserApiResults } from "../../models/users/user-api-results.model";
-import { productService } from '../../services/product.service';
+import { productService } from "../../services/product.service";
+import CategoryDto from "../../models/categories/category.model";
 
 const router = useRouter();
 
-const route = useRoute()
-const id = route.params.id
+const route = useRoute();
+const id = route.params.id;
 
-const {resource: productApiRes} = useFetch<ProductDto>(`/products/${id}`)
+const { resource: productApiRes } = useFetch<ProductDto>(`/products/${id}`);
 
 const product = computed(() => {
-  return productApiRes.value
-})
+  return productApiRes?.value;
+});
 
-const { resource } = useFetch<UserApiResults>("/users");
+const { resource } = useFetch<CategoryDto[]>("/categories");
 
-const users = computed(() => {
-  return resource.value?.users!;
+const categories = computed(() => {
+  return resource?.value;
 });
 
 const submitProduct = (productDto: ProductDto) => {
-  if (productDto.rating == null ) productDto.rating = 0
-  console.log("New Product, product : ", productDto)
-  productService.editProduct(productDto)
-    .then(productApiRes => {
-      console.log("Api-response, resp : ", productApiRes)
-      router.push("/products")
+  if (productDto.rating == null) productDto.rating = 0;
+  productService
+    .editProduct(productDto)
+    .then((productApiRes) => {
+      console.log("Api-response, resp : ", productApiRes);
+      router.push("/list-product");
     })
-    .catch(error => console.log(error))
+    .catch((error) => console.log(error));
 };
 
 const backToList = () => {
@@ -42,9 +42,9 @@ const backToList = () => {
 
 <template>
   <ProductForm
-    v-if="users?.length > 0"
+    v-if="productApiRes"
     :initial-value="product"
-    :users="users"
+    :categories="categories"
     @on-back-to-list="backToList"
     @on-submit-product="submitProduct"
   />

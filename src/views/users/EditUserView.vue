@@ -2,15 +2,18 @@
 import { useRoute, useRouter } from "vue-router";
 import { useFetch } from "../../compossables/useFetch";
 import UserDto from "../../models/auth/user.model";
-import { UserApiResults } from "../../models/users/user-api-results.model";
 import { userService } from "../../services/user.service";
 import EditProfileForm from "@/forms/auth/EditProfileForm.vue";
+import { UserApiResults } from '../../models/users/user-api-results.model';
+import { computed } from 'vue';
 
 const route = useRoute();
 const id = route.params.id;
 const router = useRouter();
 
 const { resource } = useFetch<UserApiResults>(`/users/${id}`);
+
+const user = computed(() => resource?.value?.user!)
 
 const userEditSubmit = (userDto: UserDto) => {
   userService
@@ -28,11 +31,10 @@ const backToList = () => {
 
 <template>
   <EditProfileForm
-    v-if="resource?.user"
+    v-if="resource"
     form-name="User Edit Profile"
-    :initial-value="{ ...resource?.user! }"
+    :initial-value="user"
     @on-back-to-list="backToList"
     @on-edit-profile="userEditSubmit"
   />
 </template>
-../models/users/user-api-results.model

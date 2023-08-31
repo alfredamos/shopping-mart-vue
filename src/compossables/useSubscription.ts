@@ -18,7 +18,7 @@ export function useSubscription<T>(source$: Observable<T>, data: Ref<T>) {
     if (subs) subs.unsubscribe();
   });
 
-  console.log("At point 2, subscription, data : ", data.value);
+  console.log("At point 2, subscription, data : ", data?.value);
 
   return data;
 }

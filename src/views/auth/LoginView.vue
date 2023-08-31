@@ -14,6 +14,7 @@ const router = useRouter()
 
 
 const loginSubmit = (loginDto: LoginDto) => {
+  console.log({loginDto})
   authService.login(loginDto)
     .then((user) => {
       console.log("In login - user, user", user)
